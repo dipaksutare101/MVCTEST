@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MVCTEST.Models;
+using MVCTEST.DAL;
 
 namespace MVCTEST.Controllers
 {
@@ -15,10 +16,23 @@ namespace MVCTEST.Controllers
             return View();
         }
 
-        public ActionResult Customer()
+        public ActionResult Customer(Customer obj)
         {
-            Customer obj = new Customer  { CustomerCode ="dip1001",CustomerName ="Dipak" };
-            return View(obj);
+
+            CustomerDAL DAL = new CustomerDAL();
+            DAL.Customers.Add(obj);
+            DAL.SaveChanges();
+            List<Customer> objListCust = DAL.Customers.ToList<Customer>();
+
+
+            //Customer obj = new Customer  { CustomerCode ="dip1001",CustomerName ="Dipak" };
+
+            return View(objListCust);
+        }
+
+        public ActionResult Enter()
+        {
+            return View();
         }
     }
 }

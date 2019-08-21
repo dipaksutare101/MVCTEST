@@ -1,4 +1,4 @@
-﻿@model MVCTEST.Models.Customer
+﻿@model MVCTEST.ViewModel.CustomerViewModel 
 
 @{
     Layout = null;
@@ -12,9 +12,14 @@
     <title>Customer</title>
 </head>
 <body>
-    <div> 
-        Customer Code:-@Model.CustomerCode   <br/>
-        Customer Name:-@Model.CustomerName  
-    </div>
+    @using (Html.BeginForm("Customer", "Customer", FormMethod.Post))
+    {
+            <div>
+                Customer Code: @Html.TextBoxFor(m=>m.customer.CustomerCode) <br/>
+                Customer Name: @Html.TextBoxFor(m=>m.customer.CustomerName ) <br/>
+                  <input type="submit" name="Enter" value="Enter" />>
+            </div>
+    }
 </body>
 </html>
+.
