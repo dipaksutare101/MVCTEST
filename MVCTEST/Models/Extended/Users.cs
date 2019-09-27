@@ -27,7 +27,8 @@ namespace MVCTEST.Models
         public string Email { get; set; }
 
         [Display(Name = "Date of Birth")]
-        [DisplayFormat(ConvertEmptyStringToNull =true ,DataFormatString="mm/dd/yyyy")]
+        [DisplayFormat(ConvertEmptyStringToNull =true , DataFormatString = "{0:MM/dd/yyyy}")]
+        [DataType(DataType.Date)]
         [Required(AllowEmptyStrings = false, ErrorMessage = "DateofBirth is Required")]
         public DateTime DateofBirth { get; set; }
 
