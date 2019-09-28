@@ -30,6 +30,7 @@ namespace MVCTEST.Controllers
                     user.ActivationCode = Guid.NewGuid();
                     TST.Users.Add(user);
                     TST.SaveChanges();
+                    EmailSend(user.Email, user.ActivationCode);
 
                 }
                 return RedirectToAction("Enter", "Customer");
@@ -41,18 +42,33 @@ namespace MVCTEST.Controllers
         } 
 
 
-        public ActionResult VerifyEmail()
+        public ActionResult VerifyEmail(Guid Tokan)
         {
-            return View();
+            using (TESTEntities TEST = new TESTEntities())
+            {
+                 
+                var user1 = TEST.Users.FirstOrDefault(x => x.ActivationCode == Tokan);
+                if(user1 != null)
+                {
+                    user1.IsEmailVarified = true;
+                    TEST.SaveChanges();
+
+                    
+
+                }
+
+            }
+                return View();
         }
 
-        public void EmailSend(string Email)
+        public void EmailSend(string Email,Guid? Tokan)
         {
+            string url ="https://" + Request.Url.Authority + "/user/VerifyEmail?Tokan=" + Tokan;
             MailMessage mail = new MailMessage();
             mail.From = new MailAddress("dip@3sixty.com");
             mail.To.Add("dipaksutare007@gmail.com");
             mail.Subject = "Verify email";
-            mail.Body = "Verify Email";
+            mail.Body = url;
             SmtpClient sc = new SmtpClient
             {
                 Host = "smtp.gmail.com",
